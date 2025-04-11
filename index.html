@@ -87,25 +87,6 @@
   </section>
 
   <section>
-    <h2>Contact Me</h2>
-    <form onsubmit="handleSubmit(event)">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required />
-
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
-
-      <button type="submit">Send</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>Fun Button</h2>
-    <p>Click the button to see a message!</p>
-    <button onclick="sayHello()">Click Me!</button>
-  </section>
-
-  <section>
     <h2>Check Your Attendance Points</h2>
     <p>Enter your UT EID to see your attendance record:</p>
 
@@ -122,31 +103,6 @@
   </footer>
 
   <script>
-    function sayHello() {
-      alert("Hi there! Thanks for visiting my site!");
-    }
-
-    function handleSubmit(event) {
-      event.preventDefault();
-      const rawName = document.getElementById("name").value.trim();
-
-      if (!rawName) {
-        alert("Please enter your name.");
-        return;
-      }
-
-      const words = rawName.split(/\s+/);
-      const firstName = words[0];
-
-      if (!firstName) {
-        alert("Please enter a valid name.");
-        return;
-      }
-
-      const formattedName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
-      alert("Thanks for your message, " + formattedName + "!");
-    }
-
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHcFQxME1unDBDFfL7MjIDODY34NyZm_YkUjwJPnJYl9i1iWlUS5igPVcKW_DuIBc6jA/exec";
 
     function fetchAttendance() {
