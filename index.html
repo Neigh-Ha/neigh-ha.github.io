@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neha Garlapati | LCMD Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      margin-top: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Neha Garlapati</h1>
+    <p>Applying for Leadership in LCMD</p>
+  </header>
+
+  <section>
+    <h2>About Me</h2>
+    <p>Hello! I’m a second-year Health and Society major at UT Austin. I'm passionate about skincare, painting, and sleep. I’m applying for a position in LCMD because I love working with others and want to make a difference!</p>
+  </section>
+
+  <section>
+    <h2>Contact Me</h2>
+    <form onsubmit="handleSubmit(event)">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Fun Button</h2>
+    <p>Click the button to see a message!</p>
+    <button onclick="sayHello()">Click Me!</button>
+  </section>
+
+  <section>
+    <h2>Check Your Attendance Points</h2>
+    <p>Enter your UT EID to see your attendance record:</p>
+
+    <label for="utid">Your UT EID:</label>
+    <input type="text" id="utid" placeholder="Try abc123, bcd234, and cde345!"/>
+
+    <button onclick="fetchAttendance()">Check Points</button>
+
+    <div id="attendanceResult" style="margin-top: 1rem;"></div>
+  </section>
+
+  <footer>
+    &copy; 2025 Neha Garlapati. All rights reserved.
+  </footer>
+
+  <script>
+    function sayHello() {
+      alert("Hi there! Thanks for visiting my site!");
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const rawName = document.getElementById("name").value.trim();
+
+      if (!rawName) {
+        alert("Please enter your name.");
+        return;
+      }
+
+      const words = rawName.split(/\s+/);
+      const firstName = words[0];
+
+      if (!firstName) {
+        alert("Please enter a valid name.");
+        return;
+      }
+
+      const formattedName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+      alert("Thanks for your message, " + formattedName + "!");
+    }
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHcFQxME1unDBDFfL7MjIDODY34NyZm_YkUjwJPnJYl9i1iWlUS5igPVcKW_DuIBc6jA/exec";
+
+    function fetchAttendance() {
+      const utid = document.getElementById("utid").value.trim();
+      const resultBox = document.getElementById("attendanceResult");
+
+      if (!utid) {
+        resultBox.innerHTML = "<p class='error'>Please enter your UT EID.</p>";
+        return;
+      }
+
+      fetch(`${SCRIPT_URL}?utid=${encodeURIComponent(utid)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            resultBox.innerHTML = `<p class='error'>${data.error}</p>`;
+          } else {
+            resultBox.innerHTML = `
+              <p><strong>Name:</strong> ${data.name}</p>
+              <p><strong>Meeting Points:</strong> ${data.meetings}</p>
+              <p><strong>Social Points:</strong> ${data.socials}</p>
+            `;
+          }
+        })
+        .catch(err => {
+          resultBox.innerHTML = "<p class='error'>Something went wrong. Please try again later.</p>";
+          console.error(err);
+        });
+    }
+  </script>
+
+</body>
+</html>
